@@ -1,0 +1,21 @@
+{
+	"name": "fn-hooks",
+	"description": "Surround functions with pre and post hooks.",
+	"version": "0.0.1",
+	"main": "./lib/fn-hooks",
+	"author": {
+		"name": "David N. Johnson"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/clear/fn-hooks.git"
+	},
+	"devDependencies": {
+		"mocha": "1.9.x",
+		"should": "1.2.x",
+		"sinon": "1.7.x"
+	},
+	"engines": {
+		"node": ">= 0.6.0"
+	}
+}
