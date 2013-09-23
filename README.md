@@ -8,6 +8,12 @@ The original **hooks** library attaches hooks to objects and it's this object-ce
 
 More detail to come...
 
+## Tests
+
+It's a small library so there aren't many.
+
+	$ npm test
+
 ## License
 
 [The MIT License (MIT)](https://github.com/clear/platos-model/blob/master/LICENSE) - Copyright (c) 2013 Clear Learning Systems
