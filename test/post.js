@@ -2,7 +2,7 @@ require("should");
 var sinon = require("sinon");
 var fnhook = require("../lib/fn-hooks");
 
-describe("PRE", function () {
+describe("POST", function () {
 	describe("static", function () {
 		var Class;
 
@@ -12,26 +12,26 @@ describe("PRE", function () {
 
 		describe("no parameters", function () {
 			var stub;
-			
+
 			beforeEach(function () {
 				stub = sinon.stub();
-			
+				
 				Class.method = function () {
 					stub();
 				};
 			});
 
-			it("pre() - with no hooks - should call function", function () {
+			it("post() - with no hooks - should call function", function () {
 				fnhook(Class);
 				Class.method();
 				stub.callCount.should.equal(1);
 			});
 
-			it("pre() - with single hook - should call pre() before function", function () {
+			it("post() - with single hook - should call pre() before function", function () {
 				fnhook(Class);
 
-				Class.pre("method", function (next) {
-					stub.callCount.should.equal(0);
+				Class.post("method", function (next) {
+					stub.callCount.should.equal(1);
 					stub();
 					next();
 				});
@@ -40,17 +40,17 @@ describe("PRE", function () {
 				stub.callCount.should.equal(2);
 			});
 
-			it("pre() - with two hooks - should call both hooks before function", function () {
+			it("post() - with two hooks - should call both hooks before function", function () {
 				fnhook(Class);
 
-				Class.pre("method", function (next) {
-					stub.callCount.should.equal(0);
+				Class.post("method", function (next) {
+					stub.callCount.should.equal(1);
 					stub();
 					next();
 				});
 
-				Class.pre("method", function (next) {
-					stub.callCount.should.equal(1);
+				Class.post("method", function (next) {
+					stub.callCount.should.equal(2);
 					stub();
 					next();
 				});
@@ -63,16 +63,14 @@ describe("PRE", function () {
 		describe("with parameters", function () {
 			var argument = "test";
 
-			beforeEach(function () {
+			it("post() - with one parameter - should pass parameter to post()", function () {
 				Class.method = function (arg) {
 					arg.should.equal(argument);
 				};
-			});
 
-			it("pre() - with one parameter - should pass parameter to pre()", function () {
 				fnhook(Class);
 
-				Class.pre("method", function (next, arg) {
+				Class.post("method", function (next, arg) {
 					arg.should.equal(argument);
 					next(arg);
 				});
@@ -80,15 +78,20 @@ describe("PRE", function () {
 				Class.method(argument);
 			});
 
-			it("pre() - where hook mutates parameter - should pass changed parameter to method", function () {
+			it("post() - where method mutates parameter - should pass original parameter to post() hook", function () {
+				Class.method = function (arg) {
+					arg.should.equal(argument);
+					arg = "changed";
+				};
+
 				fnhook(Class);
 
-				Class.pre("method", function (next, arg) {
-					arg.should.equal("unchanged");
+				Class.post("method", function (next, arg) {
+					arg.should.equal(argument);
 					next(argument);
 				});
 
-				Class.method("unchanged");
+				Class.method(argument);
 			});
 		});
 	});
