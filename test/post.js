@@ -21,6 +21,19 @@ describe("POST", function () {
 				};
 			});
 
+			it("post() - with single hook - should be able to access object properites from hook", function () {
+				Class.property = true;
+
+				fnhook(Class);
+
+				Class.post("method", function (next) {
+					this.should.have.property("property");
+					next();
+				});
+
+				Class.method();
+			});
+
 			it("post() - with single hook - should call pre() before function", function () {
 				fnhook(Class);
 
@@ -110,6 +123,21 @@ describe("POST", function () {
 				};
 
 				instance = new Class();
+			});
+
+			it("post() - with single hook - should be able to access object properites from hook", function () {
+				Class.prototype.property = true;
+
+				fnhook(Class.prototype);
+
+				Class.prototype.post("method", function (next) {
+					this.should.have.property("property");
+					this.should.have.property("secondProperty");
+					next();
+				});
+
+				instance.secondProperty = true;
+				instance.method();
 			});
 
 			it("post() - with single hook - should call post() before function", function () {
