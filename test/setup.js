@@ -12,6 +12,15 @@ describe("SETUP", function () {
 		Class.should.have.property("post");
 	});
 
+	it("fnhook() - with object passed in - should add removePre() and removePost() methods", function () {
+		var Class = function () { };
+
+		fnhook(Class);
+
+		Class.should.have.property("removePre");
+		Class.should.have.property("removePost");
+	});
+
 	it.skip("testing", function () {
 		var Class = function () { };
 		Class.test = function () { };
