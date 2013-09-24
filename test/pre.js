@@ -27,6 +27,19 @@ describe("PRE", function () {
 				stub.callCount.should.equal(1);
 			});
 
+			it("pre() - with single hook - should be able to access object properites from hook", function () {
+				Class.property = true;
+
+				fnhook(Class);
+
+				Class.pre("method", function (next) {
+					this.should.have.property("property");
+					next();
+				});
+
+				Class.method();
+			});
+
 			it("pre() - with single hook - should call pre() before function", function () {
 				fnhook(Class);
 
@@ -91,6 +104,28 @@ describe("PRE", function () {
 				Class.method("unchanged");
 			});
 		});
+
+		describe("returning value", function () {
+			var returnVal = "response";
+
+			beforeEach(function () {
+				Class.method = function () {
+					return returnVal;
+				};
+			});
+
+			it("pre() - with one hook - should return value through that hook", function () {
+				fnhook(Class);
+
+				Class.pre("method", function (next) {
+					return next();
+				});
+
+				var response = Class.method();
+				(response === undefined).should.not.be.ok;
+				response.should.equal(returnVal);
+			});
+		});
 	});
 
 	describe("prototypal", function () {
@@ -118,6 +153,21 @@ describe("PRE", function () {
 				fnhook(Class.prototype);
 				instance.method();
 				stub.callCount.should.equal(1);
+			});
+
+			it("pre() - with single hook - should be able to access object properites from hook", function () {
+				Class.prototype.property = true;
+
+				fnhook(Class.prototype);
+
+				Class.prototype.pre("method", function (next) {
+					this.should.have.property("property");
+					this.should.have.property("secondProperty");
+					next();
+				});
+
+				instance.secondProperty = true;
+				instance.method();
 			});
 
 			it("pre() - with single hook - should call pre() before function", function () {

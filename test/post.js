@@ -21,7 +21,20 @@ describe("POST", function () {
 				};
 			});
 
-			it("post() - with single hook - should call pre() before function", function () {
+			it("post() - with single hook - should be able to access object properites from hook", function () {
+				Class.property = true;
+
+				fnhook(Class);
+
+				Class.post("method", function (next) {
+					this.should.have.property("property");
+					next();
+				});
+
+				Class.method();
+			});
+
+			it("post() - with single hook - should call post() after function", function () {
 				fnhook(Class);
 
 				Class.post("method", function (next) {
@@ -34,7 +47,7 @@ describe("POST", function () {
 				stub.callCount.should.equal(2);
 			});
 
-			it("post() - with two hooks - should call both hooks before function", function () {
+			it("post() - with two hooks - should call both hooks after function", function () {
 				fnhook(Class);
 
 				Class.post("method", function (next) {
@@ -88,6 +101,28 @@ describe("POST", function () {
 				Class.method(argument);
 			});
 		});
+
+		describe("returning value", function () {
+			var returnVal = "response";
+
+			beforeEach(function () {
+				Class.method = function () {
+					return returnVal;
+				};
+			});
+
+			it("post() - with one hook - should return value through that hook", function () {
+				fnhook(Class);
+
+				Class.post("method", function (next) {
+					next();
+				});
+
+				var response = Class.method();
+				(response === undefined).should.not.be.ok;
+				response.should.equal(returnVal);
+			});
+		});
 	});
 
 	describe("prototypal", function () {
@@ -110,6 +145,21 @@ describe("POST", function () {
 				};
 
 				instance = new Class();
+			});
+
+			it("post() - with single hook - should be able to access object properites from hook", function () {
+				Class.prototype.property = true;
+
+				fnhook(Class.prototype);
+
+				Class.prototype.post("method", function (next) {
+					this.should.have.property("property");
+					this.should.have.property("secondProperty");
+					next();
+				});
+
+				instance.secondProperty = true;
+				instance.method();
 			});
 
 			it("post() - with single hook - should call post() before function", function () {

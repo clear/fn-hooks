@@ -1,5 +1,4 @@
 require("should");
-//var sinon = require("sinon");
 var fnhook = require("../lib/fn-hooks");
 
 describe("SETUP", function () {
