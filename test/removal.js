@@ -3,8 +3,7 @@ var sinon = require("sinon");
 var fnhook = require("../lib/fn-hooks");
 
 describe("REMOVAL", function () {
-	var Class;
-	var stub;
+	var Class, stub;
 
 	beforeEach(function () {
 		Class = function () { };
