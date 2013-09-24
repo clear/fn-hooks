@@ -1,0 +1,82 @@
+{
+  /*** Globals ***/
+  // To ignore any custom global variables, enable the `predef` option and list
+  // your variables within it.
+  "predef": [
+    "describe",
+    "should",
+	"it",
+	"before",
+	"after",
+	"beforeEach",
+	"afterEach"
+  ],
+
+  /*** Enforcing options ***/
+  // Set these to `true` to enforce, or `false` to relax.
+  "bitwise":      true,
+  "camelcase":    true,
+  "curly":        false,
+  "eqeqeq":       true,
+  "forin":        false,
+  "immed":        true,
+  "latedef":      false,
+  "newcap":       true,
+  "noarg":        true,
+  "noempty":      true,
+  "nonew":        false,
+  "plusplus":     false,
+  "regexp":       false,
+  "undef":        true,
+  "unused":       true,
+  "strict":       false,
+  "trailing":     true,
+
+  /*** Relaxing options ***/
+  // Set these to `true` to relax, or `false` to enforce.
+  "asi":          false,
+  "boss":         false,
+  "debug":        false,
+  "eqnull":       true,
+  "esnext":       true,
+  "evil":         false,
+  "expr":         true,
+  "funcscope":    false,
+  "globalstrict": false,
+  "iterator":     false,
+  "lastsemic":    false,
+  "laxbreak":     false,
+  "laxcomma":     false,
+  "loopfunc":     true,
+  "multistr":     false,
+  "onecase":      false,
+  "proto":        false,
+  "regexdash":    false,
+  "scripturl":    false,
+  "shadow":       true,
+  "smarttabs":    false,
+  "sub":          false,
+  "supernew":     false,
+  "validthis":    true,
+
+  /*** Environments ***/
+  // Set each environment that you're using to `true`.
+  "browser":      false,
+  "couch":        false,
+  "devel":        false,
+  "dojo":         false,
+  "jquery":       true,
+  "mootools":     false,
+  "node":         true,
+  "nonstandard":  false,
+  "prototypejs":  false,
+  "rhino":        false,
+  "wsh":          false,
+
+  /*** Legacy from JSLint ***/
+  // Set these to `true` to enforce, or `false` to relax.
+  "nomen":        false,
+  "onevar":       false,
+  "passfail":     false,
+  "white":        true
+}
