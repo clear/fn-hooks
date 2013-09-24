@@ -76,14 +76,12 @@ describe("PRE", function () {
 		describe("with parameters", function () {
 			var argument = "test";
 
-			beforeEach(function () {
+			it("pre() - with one parameter - should pass parameter to pre()", function () {
+				fnhook(Class);
+
 				Class.method = function (arg) {
 					arg.should.equal(argument);
 				};
-			});
-
-			it("pre() - with one parameter - should pass parameter to pre()", function () {
-				fnhook(Class);
 
 				Class.pre("method", function (next, arg) {
 					arg.should.equal(argument);
@@ -96,12 +94,46 @@ describe("PRE", function () {
 			it("pre() - where hook mutates parameter - should pass changed parameter to method", function () {
 				fnhook(Class);
 
+				Class.method = function (arg) {
+					arg.should.equal(argument);
+				};
+
 				Class.pre("method", function (next, arg) {
 					arg.should.equal("unchanged");
 					next(argument);
 				});
 
 				Class.method("unchanged");
+			});
+
+			it("pre() - where hook doesn't pass on parameter - parameter should be implicitly passed", function () {
+				fnhook(Class);
+
+				Class.method = function (arg) {
+					arg.should.equal(argument);
+				};
+
+				Class.pre("method", function (next) {
+					next();
+				});
+
+				Class.method(argument);
+			});
+
+			it("pre() - with three parameters and hook mutates two - parameters should be merged", function () {
+				fnhook(Class);
+
+				Class.method = function (arg1, arg2, arg3) {
+					arg1.should.equal("changed");
+					arg2.should.equal("changed");
+					arg3.should.equal(argument);
+				};
+
+				Class.pre("method", function (next) {
+					next("changed", "changed");
+				});
+
+				Class.method(argument, argument, argument);
 			});
 		});
 

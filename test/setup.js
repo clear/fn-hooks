@@ -19,20 +19,4 @@ describe("SETUP", function () {
 		Class.should.have.property("removePre");
 		Class.should.have.property("removePost");
 	});
-
-	it.skip("testing", function () {
-		var Class = function () { };
-		Class.test = function () { };
-		Class.test2 = function () { };
-
-		var Class2 = function () { };
-		Class2.test = function () { };
-
-		fnhook(Class);
-		fnhook(Class2);
-
-		Class.pre("test", function () { });
-		Class2.pre("test", function () { });
-		Class.pre("test2", function () { });
-	});
 });
