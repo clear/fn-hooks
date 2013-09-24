@@ -101,6 +101,28 @@ describe("POST", function () {
 				Class.method(argument);
 			});
 		});
+
+		describe("returning value", function () {
+			var returnVal = "response";
+
+			beforeEach(function () {
+				Class.method = function () {
+					return returnVal;
+				};
+			});
+
+			it("post() - with one hook - should return value through that hook", function () {
+				fnhook(Class);
+
+				Class.post("method", function (next) {
+					next();
+				});
+
+				var response = Class.method();
+				(response === undefined).should.not.be.ok;
+				response.should.equal(returnVal);
+			});
+		});
 	});
 
 	describe("prototypal", function () {

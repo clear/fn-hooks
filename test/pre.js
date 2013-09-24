@@ -104,6 +104,28 @@ describe("PRE", function () {
 				Class.method("unchanged");
 			});
 		});
+
+		describe("returning value", function () {
+			var returnVal = "response";
+
+			beforeEach(function () {
+				Class.method = function () {
+					return returnVal;
+				};
+			});
+
+			it("pre() - with one hook - should return value through that hook", function () {
+				fnhook(Class);
+
+				Class.pre("method", function (next) {
+					return next();
+				});
+
+				var response = Class.method();
+				(response === undefined).should.not.be.ok;
+				response.should.equal(returnVal);
+			});
+		});
 	});
 
 	describe("prototypal", function () {
