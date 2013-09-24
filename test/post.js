@@ -34,7 +34,7 @@ describe("POST", function () {
 				Class.method();
 			});
 
-			it("post() - with single hook - should call pre() before function", function () {
+			it("post() - with single hook - should call post() after function", function () {
 				fnhook(Class);
 
 				Class.post("method", function (next) {
@@ -47,7 +47,7 @@ describe("POST", function () {
 				stub.callCount.should.equal(2);
 			});
 
-			it("post() - with two hooks - should call both hooks before function", function () {
+			it("post() - with two hooks - should call both hooks after function", function () {
 				fnhook(Class);
 
 				Class.post("method", function (next) {
