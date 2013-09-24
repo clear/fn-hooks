@@ -10,7 +10,7 @@ describe("ERRORS", function () {
 		stub = sinon.stub();
 	});
 
-	describe("static", function () {
+	describe("synchronous", function () {
 		it("pre() - when passing an Error to next() - should not call the method", function () {
 			fnhook(Class);
 
