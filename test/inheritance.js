@@ -134,4 +134,41 @@ describe("INHERITANCE", function () {
 		stubChild1.callCount.should.equal(2);
 		stubChild2.callCount.should.equal(0);
 	});
+
+	it("pre() - with two levels of inheritance - should call parent and both children hooks", function () {
+		var stubChild2 = sinon.stub();
+
+		Parent.prototype.method = function () {
+			stubParent();
+		};
+
+		util.inherits(Child1, Parent);
+		util.inherits(Child2, Child1);
+
+		fnhook(Parent.prototype);
+		fnhook(Child1.prototype);
+		fnhook(Child2.prototype);
+
+		Parent.prototype.pre("method", function (next) {
+			stubParent();
+			next();
+		});
+
+		Child1.prototype.pre("method", function (next) {
+			stubChild1();
+			next();
+		});
+
+		Child2.prototype.pre("method", function (next) {
+			stubChild2();
+			next();
+		});
+
+		var instance = new Child2();
+		instance.method();
+
+		stubParent.callCount.should.equal(2);
+		stubChild1.callCount.should.equal(1);
+		stubChild2.callCount.should.equal(1);
+	});
 });
