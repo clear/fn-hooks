@@ -36,6 +36,19 @@ describe("ASYNC", function () {
 			});
 		});
 
+		it("pre() - with callback and hook - should be able to access object properites from hook", function (done) {
+			Class.property = true;
+
+			fnhook(Class);
+
+			Class.pre("method", function (next) {
+				this.should.have.property("property");
+				next();
+			});
+
+			Class.method(done);
+		});
+
 		it("post() - with callback - should call callback after post hooks", function (done) {
 			fnhook(Class);
 
@@ -49,6 +62,19 @@ describe("ASYNC", function () {
 				stub.callCount.should.equal(2);
 				done();
 			});
+		});
+
+		it("post() - with callback and hook - should be able to access object properites from hook", function (done) {
+			Class.property = true;
+
+			fnhook(Class);
+
+			Class.post("method", function (next) {
+				this.should.have.property("property");
+				next();
+			});
+
+			Class.method(done);
 		});
 	});
 
@@ -83,6 +109,46 @@ describe("ASYNC", function () {
 				response.should.equal("result");
 				done();
 			});
+		});
+	});
+
+	describe("prototypal", function () {
+		beforeEach(function () {
+			Class.prototype.method = function (callback) {
+				callback();
+			};
+		});
+
+		it("pre() - with callback and hook - should be able to access object properites from hook", function (done) {
+			Class.prototype.property = true;
+
+			fnhook(Class.prototype);
+
+			Class.prototype.pre("method", function (next) {
+				this.should.have.property("property");
+				this.should.have.property("secondProperty");
+				next();
+			});
+
+			var instance = new Class();
+			instance.secondProperty = true;
+			instance.method(done);
+		});
+
+		it("post() - with callback and hook - should be able to access object properites from hook", function (done) {
+			Class.prototype.property = true;
+
+			fnhook(Class.prototype);
+
+			Class.prototype.post("method", function (next) {
+				this.should.have.property("property");
+				this.should.have.property("secondProperty");
+				next();
+			});
+
+			var instance = new Class();
+			instance.secondProperty = true;
+			instance.method(done);
 		});
 	});
 });
