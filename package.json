@@ -1,7 +1,7 @@
 {
 	"name": "fn-hooks",
 	"description": "Surround node.js functions with pre and post hooks.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"main": "./lib/fn-hooks",
 	"author": {
 		"name": "David N. Johnson"
