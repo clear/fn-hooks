@@ -1,7 +1,7 @@
 {
 	"name": "fn-hooks",
 	"description": "Surround node.js functions with pre and post hooks.",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"main": "./lib/fn-hooks",
 	"author": {
 		"name": "David N. Johnson"
@@ -11,7 +11,7 @@
 		"url": "git://github.com/clear/fn-hooks.git"
 	},
 	"dependencies": {
-		"lodash": "2.1.x"
+		"lodash": "3.10.x"
 	},
 	"devDependencies": {
 		"mocha": "1.9.x",
