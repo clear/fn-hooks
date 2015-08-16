@@ -36,7 +36,7 @@ describe("ASYNC", function () {
 			});
 		});
 
-		it("pre() - with callback and hook - should be able to access object properites from hook", function (done) {
+		it("pre() - with callback and hook - should be able to access object properties from hook", function (done) {
 			Class.property = true;
 
 			fnhook(Class);
@@ -64,7 +64,7 @@ describe("ASYNC", function () {
 			});
 		});
 
-		it("post() - with callback and hook - should be able to access object properites from hook", function (done) {
+		it("post() - with callback and hook - should be able to access object properties from hook", function (done) {
 			Class.property = true;
 
 			fnhook(Class);
@@ -110,6 +110,25 @@ describe("ASYNC", function () {
 				done();
 			});
 		});
+
+		it("post() - with callback returning an Array argument - should call callback with returned Array", function (done) {
+			Class.method = function (callback) {
+				callback([ "result1", "result2" ]);
+			};
+
+			fnhook(Class);
+
+			Class.post("method", function (next, response, callback) {
+				next(response, callback);
+			});
+
+			Class.method(function (response) {
+				response.length.should.equal(2);
+				response[0].should.equal("result1");
+				response[1].should.equal("result2");
+				done();
+			});
+		});
 	});
 
 	describe("prototypal", function () {
@@ -119,7 +138,7 @@ describe("ASYNC", function () {
 			};
 		});
 
-		it("pre() - with callback and hook - should be able to access object properites from hook", function (done) {
+		it("pre() - with callback and hook - should be able to access object properties from hook", function (done) {
 			Class.prototype.property = true;
 
 			fnhook(Class.prototype);
@@ -135,7 +154,7 @@ describe("ASYNC", function () {
 			instance.method(done);
 		});
 
-		it("post() - with callback and hook - should be able to access object properites from hook", function (done) {
+		it("post() - with callback and hook - should be able to access object properties from hook", function (done) {
 			Class.prototype.property = true;
 
 			fnhook(Class.prototype);
